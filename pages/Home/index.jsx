@@ -3,30 +3,9 @@ import {View,Text,StyleSheet,SafeAreaView,Dimensions,TextInput,FlatList,Image,Pr
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AntDesign,Feather } from '@expo/vector-icons';
 import {useGetData} from '../../custom-hooks'
+import {AllContacts,RecentAdd} from '../../components'
 
 const {width,fontScale,height} = Dimensions.get('screen')
-
-const ContactCard = memo(({item} ) => (
-  <Pressable
-    onPress={() => console.log(item.id)}
-    style={{
-      borderBottomWidth: 1,
-      borderBottomColor: '#eee',
-      paddingBottom: 10,
-      marginTop: 20,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    }}>
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <Image source={{ uri: item.photo }} style={{ height: 50, width: 50, borderRadius: 14 }} />
-      <Text style={{ marginLeft: 20, color: '#444', fontSize: 18 / fontScale }}>{item.firstName + ' ' + item.lastName}</Text>
-    </View>
-    <View style={{ backgroundColor: '#AED6F1', padding: 5, borderRadius: 5 }}>
-      <AntDesign name="right" size={16} color="#fff" />
-    </View>
-  </Pressable>
-));
 
 const Home = ({navigation}) => {
   const insets = useSafeAreaInsets()
@@ -40,29 +19,13 @@ const Home = ({navigation}) => {
         <TextInput clearButtonMode="always" placeholder="Search name here..." inputMode="search" autoCapitalize="none" returnKeyLabel="search" style={styles.input}/>
       </View>
       <Text style={{fontSize:18/fontScale,fontWeight:"600",marginTop:10}}>Recent Added</Text>
-      <View style={{height:150}}>
-        <FlatList
-          horizontal={true} 
-          contentContainerStyle={{paddingHorizontal:10}}
-          showsHorizontalScrollIndicator={false}
-          data={allContacts?.data.slice(0,10)}
-          maxToRenderPerBatch={10}
-          keyExtractor={(item)=>item.id.toString()}
-          renderItem={({item})=>{
-          return(
-            <Pressable style={{marginRight:20,marginVertical:20,alignItems:'center'}}>
-              <Image source={{uri:item.photo}} style={{height:70,width:70,borderRadius:22}}/>
-              <Text style={{marginTop:10,color:"#444",fontSize:14/fontScale}}>{item.firstName}</Text>
-            </Pressable>
-          )
-        }}/>
-      </View>
+      <RecentAdd datas={allContacts?.data.slice(0,10)}/>
       <Text style={{fontSize:18/fontScale,fontWeight:"600"}}>All Contacts ({allContacts?.data.length})</Text>
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={allContacts?.data}
         keyExtractor={(item)=>item.id.toString()}
-        renderItem={({item})=><ContactCard item={item}/>}/>
+        renderItem={({item})=><AllContacts item={item}/>}/>
     </SafeAreaView>
   )
 }
