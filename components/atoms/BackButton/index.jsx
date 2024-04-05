@@ -1,11 +1,11 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { EvilIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
-const BackButton = ({onPress,color="#000"}) => {
+const BackButton = ({onPress,color="#000",...rest}) => {
   return (
-    <TouchableOpacity style={{borderRadius:6,zIndex:3}} onPress={onPress}>
-      <EvilIcons name="arrow-left" size={45} color={color} />
+    <TouchableOpacity style={{width:45,height:45,alignItems:'center',justifyContent:'center',borderRadius:30,zIndex:3,...rest}} onPress={onPress}>
+      <AntDesign name="arrowleft" size={26} color={color} />
     </TouchableOpacity>
   );
 }
