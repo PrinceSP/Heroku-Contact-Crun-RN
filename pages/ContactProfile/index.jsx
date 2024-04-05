@@ -1,11 +1,10 @@
-import React,{memo} from 'react'
+import React from 'react'
 import {View,Text,StyleSheet,SafeAreaView,Dimensions,TextInput,FlatList,Image,ImageBackground,Pressable} from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Feather } from '@expo/vector-icons';
+import { Feather,MaterialIcons,Ionicons } from '@expo/vector-icons';
 import {useGetData} from '../../custom-hooks'
-import {BackButton} from '../../components'
+import {BackButton,MenuButton,FloatingInput} from '../../components'
 
 const {width,fontScale} = Dimensions.get('window')
 
@@ -26,10 +25,33 @@ const ContactProfile = ({navigation}) => {
             <Image style={styles.image} source={{ uri: photo }} />
           </View>
           <Text style={styles.name}>{`${first} ${last}` || "-"}</Text>
-          <Pressable style={{backgroundColor:"#aea3a5",borderRadius:50,paddingVertical:10,paddingHorizontal:5}}>
-            <Feather name="edit-3" size={24} color="black" />
-            <Text>Edit Contact</Text>
+          <Pressable onPress={()=>navigation.navigate('EditContact')} style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:"#fef3f5",borderRadius:50,paddingVertical:12,paddingHorizontal:15,marginTop:20}}>
+            <Feather name="edit-3" size={22} color="#555" />
+            <Text style={{fontFamily:"Regular",marginLeft:10,fontSize:16/fontScale,color:"#555"}}>Edit Contact</Text>
           </Pressable>
+          <View style={{width:"100%",marginTop:12,backgroundColor:"#fff",borderRadius:10,paddingVertical:21,paddingHorizontal:20}}>
+            <MenuButton
+              icon={
+                <MaterialIcons name="notifications-none" size={24} color="#0D86E7" />
+              }
+              iconValue="Notifications"
+              onPress = {() => console.log(true)}
+            />
+            <MenuButton
+              icon={
+                <Ionicons name="language-outline" size={26} color="#0D86E7" />
+              }
+              iconValue="Language"
+              onPress = {() => console.log(true)}
+            />
+            <MenuButton
+              icon={
+                <Ionicons name="information-circle-outline" size={26} color="#0D86E7" />
+              }
+              iconValue="App info"
+              onPress = {() => navigation.navigate("AppInfo")}
+            />
+          </View>
         </View>
       </ImageBackground>
     </View>
@@ -48,7 +70,7 @@ const styles = StyleSheet.create({
     color:"#000",
     fontSize:26/fontScale,
     marginTop:25,
-    fontWeight:'700'
+    fontFamily:"Medium",
   },
   header:{
     width,
@@ -80,7 +102,7 @@ const styles = StyleSheet.create({
   },
   name:{
     fontSize:24/fontScale,
-    fontWeight:'800',
+    fontFamily:"SemiBold",
     color:"#454545",
     marginTop:90
   }
