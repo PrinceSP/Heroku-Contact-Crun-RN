@@ -25,7 +25,7 @@ const Home = ({navigation}) => {
         showsHorizontalScrollIndicator={false}
         data={allContacts?.data}
         keyExtractor={(item)=>item.id.toString()}
-        renderItem={({item})=><AllContacts item={item}/>}/>
+        renderItem={({item})=><AllContacts item={item} navigation={navigation}/>}/>
     </SafeAreaView>
   )
 }
