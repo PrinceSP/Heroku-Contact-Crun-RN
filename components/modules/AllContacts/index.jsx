@@ -8,6 +8,7 @@ const {fontScale} = Dimensions.get('window')
 
 const AllContacts = memo(({item,navigation} ) =>{
   const dispatch = useDispatch();
+  
   const getCurrentContact = () => {
     dispatch(getID({currentId:item.id}))
     navigation.navigate("ContactProfile")
