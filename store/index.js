@@ -1,8 +1,8 @@
 import {configureStore} from "@reduxjs/toolkit"
-import getContactId from './idContact.js'
+import contactId from './contactId.js'
 
 export const store = configureStore({
   reducer:{
-    contactId: getContactId
+    currentID: contactId,
   }
 })
