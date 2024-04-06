@@ -1,5 +1,5 @@
 import React,{useCallback,useState} from 'react'
-import {View,Text,StyleSheet,ToastAndroid,SafeAreaView,Dimensions,TextInput,TouchableOpacity,FlatList,Image,ImageBackground,Pressable} from 'react-native'
+import {View,Text,StyleSheet,SafeAreaView,Dimensions,TextInput,TouchableOpacity,FlatList,Image,ImageBackground,Pressable} from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
@@ -55,16 +55,11 @@ const EditContact = ({navigation}) => {
     }
   }, [libraryStatus, handleLaunchLibrary, requestPermission])
 
-  const showToast = (message) => {
-    ToastAndroid.show(message, ToastAndroid.SHORT);
-  };
-
   const update=()=>{
     updateData()
-    showToast("Data is updated!")
     setTimeout(()=>{
       navigation.navigate("ContactProfile")
-    },500)
+    },1000)
   }
 
   return (
