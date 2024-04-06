@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentId: "sdfsdf"
+  currentId: ""
 };
 
 const getCurrentId = createSlice({
