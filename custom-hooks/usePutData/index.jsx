@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from 'react';
 
-const useUpdateContact = (url, datas) => {
-  const [error, setError] = useState(null);
+const useSaveData = (url, method, datas) => {
+  const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const updateData = useCallback(async() => {
     setLoading(true)
     try {
-        await fetch(`${process.env.BASE_URL}/${id}`,{
-        method: 'PUT',
+      const response = await fetch(url,{
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -17,12 +17,12 @@ const useUpdateContact = (url, datas) => {
       setLoading(false)
     } catch (e) {
       setLoading(false)
-      setError(e)
+      setResponse(e)
       return e
     }
   }, [datas,url]);
 
-  return { error,loading,updateData };
+  return { loading,response,updateData };
 };
 
-export default useUpdateContact;
+export default useSaveData;
