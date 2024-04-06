@@ -1,7 +1,7 @@
 import React from 'react';
 import { Easing } from 'react-native';
 import { createNativeStackNavigator,TransitionPreset,CardStyleInterpolators } from '@react-navigation/native-stack';
-import {Home,ContactProfile,EditContact} from "../pages"
+import {Home,ContactProfile,EditContact,AddContact} from "../pages"
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +46,7 @@ const Router = () => {
       <Stack.Screen name='Home' component={Home}></Stack.Screen>
       <Stack.Screen name='ContactProfile' component={ContactProfile}></Stack.Screen>
       <Stack.Screen name='EditContact' component={EditContact}></Stack.Screen>
+      <Stack.Screen name='AddContact' component={AddContact}></Stack.Screen>
 
         {/* You can add you screen here */}
     </Stack.Navigator>
