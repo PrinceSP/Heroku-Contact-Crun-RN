@@ -1,15 +1,26 @@
-import React,{memo} from 'react'
+import React,{useCallback} from 'react'
 import {View,Text,StyleSheet,SafeAreaView,Dimensions,TextInput,FlatList,Image,Pressable} from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AntDesign,Feather } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native'
 import {useGetData} from '../../custom-hooks'
-import {AllContacts,RecentAdd} from '../../components'
+import {AllContacts,RecentAdd,LoadingModal} from '../../components'
 
 const {width,fontScale,height} = Dimensions.get('screen')
 
 const Home = ({navigation}) => {
   const insets = useSafeAreaInsets()
   const {datas,refetch} = useGetData(`${process.env.BASE_URL}`)
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
+
+  if (!datas) {
+    return <LoadingModal/>;
+  }
 
   return (
     <SafeAreaView style={[styles.container,{paddingTop: insets.top}]}>
@@ -19,13 +30,16 @@ const Home = ({navigation}) => {
         <TextInput clearButtonMode="always" placeholder="Search name here..." inputMode="search" autoCapitalize="none" returnKeyLabel="search" style={styles.input}/>
       </View>
       <Text style={{fontSize:18/fontScale,fontWeight:"600",marginTop:10}}>Recent Added</Text>
-      <RecentAdd datas={datas?.data.slice(0,10)}/>
+      <RecentAdd datas={datas?.data.slice(0,10)} navigation={navigation}/>
       <Text style={{fontSize:18/fontScale,fontWeight:"600"}}>All Contacts ({datas?.data.length})</Text>
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={datas?.data}
         keyExtractor={(item)=>item.id.toString()}
         renderItem={({item})=><AllContacts item={item} navigation={navigation}/>}/>
+      <Pressable style={styles.addBtn} onPress={()=>navigation.navigate("AddContact")}>
+        <AntDesign name="adduser" size={32} color="#fff" />
+      </Pressable>
     </SafeAreaView>
   )
 }
@@ -57,6 +71,17 @@ const styles = StyleSheet.create({
     fontSize:18/fontScale,
     color:"#B7B8BB",
     marginLeft:16
+  },
+  addBtn:{
+    position:'absolute',
+    bottom:30,
+    right:30,
+    width:70,
+    height:70,
+    borderRadius:70,
+    backgroundColor: "#7866DC",
+    alignItems:'center',
+    justifyContent:'center'
   }
 });
 
