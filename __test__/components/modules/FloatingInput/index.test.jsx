@@ -24,7 +24,7 @@ describe('FloatingInput component', () => {
     fireEvent.focus(input);
 
     const label = getByText('Username');
-    expect(label.props.style.top).toBe(5); // Check if label is positioned correctly when focused
+    expect(label.props.style.top).toBe(5);
   });
 
   it('hides label when input loses focus and has no value', () => {
@@ -36,7 +36,7 @@ describe('FloatingInput component', () => {
     fireEvent.blur(input);
 
     const label = getByText('Username');
-    expect(label.props.style.top).toBe(18); // Check if label is positioned correctly when blurred and has no value
+    expect(label.props.style.top).toBe(18);
   });
 
   it('keeps label visible when input has value', () => {
@@ -47,6 +47,6 @@ describe('FloatingInput component', () => {
     const input = getByPlaceholderText('Enter your username');
 
     const label = getByText('Username');
-    expect(label.props.style.top).toBe(5); // Check if label is positioned correctly when input has value
+    expect(label.props.style.top).toBe(5);
   });
 });

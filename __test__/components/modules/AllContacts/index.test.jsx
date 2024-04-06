@@ -1,8 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import {AllContacts} from '../../components';
+import {AllContacts} from '../../../../components';
 
-// Mocked navigation object
 const navigation = {
   navigate: jest.fn(),
 };
