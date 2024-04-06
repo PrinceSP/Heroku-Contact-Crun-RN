@@ -1,4 +1,4 @@
 import useGetData from './useGetData'
-import useSaveData from './usePutData'
+import useSaveData from './useSaveData'
 
 export {useGetData,useSaveData}
