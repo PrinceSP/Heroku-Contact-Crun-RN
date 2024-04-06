@@ -1,24 +1,35 @@
-import React from 'react'
+import React,{useCallback} from 'react'
 import {View,Text,StyleSheet,SafeAreaView,Dimensions,TextInput,FlatList,Image,ImageBackground,Pressable} from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector,useDispatch } from 'react-redux';
 import { Feather,MaterialIcons,Ionicons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native'
 import {useGetData} from '../../custom-hooks'
-import {BackButton,MenuButton,FloatingInput} from '../../components'
+import {BackButton,MenuButton,FloatingInput,LoadingModal} from '../../components'
 import {getData} from '../../store/selectedContact'
 
 const {width,fontScale} = Dimensions.get('window')
 
 const ContactProfile = ({navigation}) => {
-  const insets = useSafeAreaInsets()
-  const dispatch = useDispatch()
+  const insets = useSafeAreaInsets();
+  const dispatch = useDispatch();
   const id = useSelector(state => state.currentID.currentId);
-  const selectedContact = useGetData(`${process.env.BASE_URL}/${id}`)
-  const {firstName,lastName,age,photo } = Object(selectedContact?.data)
+  const { datas, refetch } = useGetData(`${process.env.BASE_URL}/${id}`);
+  const { firstName, lastName, age, photo } = Object(datas?.data);
 
-  const getContact=()=>{
-    dispatch(getData({firstName,lastName,age,photo}))
-    navigation.navigate('EditContact')
+  const getContact = () => {
+    dispatch(getData({firstName, lastName, age, photo}));
+    navigation.navigate('EditContact');
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
+
+  if (!datas) {
+    return <LoadingModal/>;
   }
 
   return (
