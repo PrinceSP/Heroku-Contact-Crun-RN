@@ -1,4 +1,4 @@
 import useGetData from './useGetData'
-import useUpdateContact from './usePutData'
+import useSaveData from './usePutData'
 
-export {useGetData,useUpdateContact}
+export {useGetData,useSaveData}
