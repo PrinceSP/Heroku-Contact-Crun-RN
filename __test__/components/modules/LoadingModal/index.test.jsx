@@ -1,15 +1,12 @@
 import React from 'react';
-import { ActivityIndicator,Text, View,Dimensions } from 'react-native';
+import { render } from '@testing-library/react-native';
+import {LoadingModal} from '../../../../LoadingModal';
 
-const {width,height} = Dimensions.get('window')
+describe('LoadingModal component', () => {
+  it('renders correctly', () => {
+    const { getByText, getByTestId } = render(<LoadingModal />);
 
-const LoadingModal = () => {
-  return (
-    <View style={{flex:1,alignItems:'center',justifyContent:'center',backgroundColor:"#fff"}}>
-      <Text>Please Wait</Text>
-      <ActivityIndicator size='large' color="#00f"/>
-    </View>
-  );
-}
-
-export default LoadingModal
+    expect(getByText('Please Wait')).toBeTruthy();
+    expect(getByTestId('activity-indicator')).toBeTruthy();
+  });
+});
