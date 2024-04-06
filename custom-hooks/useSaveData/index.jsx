@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 const useSaveData = (url, method, datas) => {
-  const [response, setResponse] = useState(null);
+  const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
 
   const updateData = useCallback(async() => {
@@ -14,6 +14,8 @@ const useSaveData = (url, method, datas) => {
         },
         body: JSON.stringify(datas),
       })
+      console.log(response.status);
+      setResponse(response.status)
       setLoading(false)
     } catch (e) {
       setLoading(false)
