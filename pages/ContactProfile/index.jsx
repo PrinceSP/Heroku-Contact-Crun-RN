@@ -1,18 +1,25 @@
 import React from 'react'
 import {View,Text,StyleSheet,SafeAreaView,Dimensions,TextInput,FlatList,Image,ImageBackground,Pressable} from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { Feather,MaterialIcons,Ionicons } from '@expo/vector-icons';
 import {useGetData} from '../../custom-hooks'
 import {BackButton,MenuButton,FloatingInput} from '../../components'
+import {getData} from '../../store/selectedContact'
 
 const {width,fontScale} = Dimensions.get('window')
 
 const ContactProfile = ({navigation}) => {
   const insets = useSafeAreaInsets()
+  const dispatch = useDispatch()
   const id = useSelector(state => state.currentID.currentId);
   const selectedContact = useGetData(`${process.env.BASE_URL}/${id}`)
-  const {firstName:first,lastName:last,age,photo } = Object(selectedContact?.data)
+  const {firstName,lastName,age,photo } = Object(selectedContact?.data)
+
+  const getContact=()=>{
+    dispatch(getData({firstName,lastName,age,photo}))
+    navigation.navigate('EditContact')
+  }
 
   return (
     <View style={styles.container}>
@@ -24,8 +31,8 @@ const ContactProfile = ({navigation}) => {
           <View style={styles.imageContainer}>
             <Image style={styles.image} source={{ uri: photo }} />
           </View>
-          <Text style={styles.name}>{`${first} ${last}` || "-"}</Text>
-          <Pressable onPress={()=>navigation.navigate('EditContact')} style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:"#fef3f5",borderRadius:50,paddingVertical:12,paddingHorizontal:15,marginTop:20}}>
+          <Text style={styles.name}>{`${firstName} ${lastName}`}</Text>
+          <Pressable onPress={getContact} style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:"#fef3f5",borderRadius:50,paddingVertical:12,paddingHorizontal:15,marginTop:20}}>
             <Feather name="edit-3" size={22} color="#555" />
             <Text style={{fontFamily:"Regular",marginLeft:10,fontSize:16/fontScale,color:"#555"}}>Edit Contact</Text>
           </Pressable>
