@@ -9,7 +9,7 @@ const {width,fontScale,height} = Dimensions.get('screen')
 
 const Home = ({navigation}) => {
   const insets = useSafeAreaInsets()
-  const allContacts = useGetData(`${process.env.BASE_URL}`)
+  const {datas,refetch} = useGetData(`${process.env.BASE_URL}`)
 
   return (
     <SafeAreaView style={[styles.container,{paddingTop: insets.top}]}>
@@ -19,11 +19,11 @@ const Home = ({navigation}) => {
         <TextInput clearButtonMode="always" placeholder="Search name here..." inputMode="search" autoCapitalize="none" returnKeyLabel="search" style={styles.input}/>
       </View>
       <Text style={{fontSize:18/fontScale,fontWeight:"600",marginTop:10}}>Recent Added</Text>
-      <RecentAdd datas={allContacts?.data.slice(0,10)}/>
-      <Text style={{fontSize:18/fontScale,fontWeight:"600"}}>All Contacts ({allContacts?.data.length})</Text>
+      <RecentAdd datas={datas?.data.slice(0,10)}/>
+      <Text style={{fontSize:18/fontScale,fontWeight:"600"}}>All Contacts ({datas?.data.length})</Text>
       <FlatList
         showsHorizontalScrollIndicator={false}
-        data={allContacts?.data}
+        data={datas?.data}
         keyExtractor={(item)=>item.id.toString()}
         renderItem={({item})=><AllContacts item={item} navigation={navigation}/>}/>
     </SafeAreaView>
