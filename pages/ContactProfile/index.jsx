@@ -1,10 +1,10 @@
-import React,{useCallback} from 'react'
-import {View,Text,StyleSheet,SafeAreaView,Dimensions,TextInput,FlatList,Image,ImageBackground,Pressable} from 'react-native'
+import React,{useCallback,useState} from 'react'
+import {View,Text,StyleSheet,SafeAreaView,Dimensions,TouchableOpacity,TextInput,FlatList,Image,ImageBackground,Pressable} from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector,useDispatch } from 'react-redux';
-import { Feather,MaterialIcons,Ionicons } from '@expo/vector-icons';
+import { Entypo,Feather,MaterialIcons,Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native'
-import {useGetData} from '../../custom-hooks'
+import {useGetData,useSaveData} from '../../custom-hooks'
 import {BackButton,MenuButton,FloatingInput,LoadingModal} from '../../components'
 import {getData} from '../../store/selectedContact'
 
@@ -13,8 +13,11 @@ const {width,fontScale} = Dimensions.get('window')
 const ContactProfile = ({navigation}) => {
   const insets = useSafeAreaInsets();
   const dispatch = useDispatch();
+  const [isMenu,showMenu] = useState(false)
   const id = useSelector(state => state.currentID.currentId);
   const { datas, refetch } = useGetData(`${process.env.BASE_URL}/${id}`);
+  const { updateData } = useSaveData(`${process.env.BASE_URL}/${id}`);
+  console.log(id);
   const { firstName, lastName, age, photo } = Object(datas?.data);
 
   const getContact = () => {
@@ -37,6 +40,15 @@ const ContactProfile = ({navigation}) => {
       <ImageBackground blurRadius={3} style={{flex:1,paddingHorizontal:21,alignItems:'center'}} source={{uri:photo}}>
         <View style={[styles.header,{marginTop:insets.top}]}>
           <BackButton onPress={()=>navigation.goBack()} backgroundColor="#fff" color="#777" padding={8}/>
+          <View>
+            <Entypo name="dots-three-vertical" size={24} color="#fff" onPress={()=>showMenu(!isMenu)}/>
+            {
+              isMenu === true ?
+              <TouchableOpacity style={{position:'absolute',right:20,padding:10,backgroundColor:"#fff",borderRadius:2,width:100,alignItems:'center'}} onPress={updateData}>
+                <Text style={{textAlign:'center'}}>delete contact</Text>
+              </TouchableOpacity> : null
+            }
+          </View>
         </View>
         <View style={styles.contentContainer}>
           <View style={styles.imageContainer}>
@@ -92,7 +104,10 @@ const styles = StyleSheet.create({
   },
   header:{
     width,
-    paddingHorizontal:21
+    paddingHorizontal:21,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'space-between'
   },
   contentContainer:{
     width,
