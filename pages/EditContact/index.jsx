@@ -1,10 +1,10 @@
 import React,{useCallback,useState} from 'react'
-import {View,Text,StyleSheet,SafeAreaView,Dimensions,TextInput,TouchableOpacity,FlatList,Image,ImageBackground,Pressable} from 'react-native'
+import {View,Text,StyleSheet,ToastAndroid,SafeAreaView,Dimensions,TextInput,TouchableOpacity,FlatList,Image,ImageBackground,Pressable} from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
-import {BackButton,FloatingInput} from '../../components'
-import {useUpdateContact} from '../../custom-hooks'
+import {BackButton,FloatingInput,LoadingModal} from '../../components'
+import {useSaveData} from '../../custom-hooks'
 
 const {width,fontScale} = Dimensions.get('window')
 
@@ -20,7 +20,7 @@ const EditContact = ({navigation}) => {
     photo: contactData.photo
   })
 
-  const {error, loading, updateData} = useUpdateContact(`${process.env.BASE_URL}/${id}`,datas);
+  const { loading,response,updateData} = useSaveData(`${process.env.BASE_URL}/${id}`,"PUT",datas);
 
   const [libraryStatus, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
@@ -55,6 +55,18 @@ const EditContact = ({navigation}) => {
     }
   }, [libraryStatus, handleLaunchLibrary, requestPermission])
 
+  const showToast = (message) => {
+    ToastAndroid.show(message, ToastAndroid.SHORT);
+  };
+
+  const update=()=>{
+    updateData()
+    showToast("Data is updated!")
+    setTimeout(()=>{
+      navigation.navigate("ContactProfile")
+    },500)
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground blurRadius={3} style={{flex:1,alignItems:'center'}} source={{uri:datas.photo}}>
@@ -69,7 +81,7 @@ const EditContact = ({navigation}) => {
           <FloatingInput label="First name" onChangeText={(value)=>setDatas({...datas,firstName:value})} values={datas.firstName}/>
           <FloatingInput label="Last name" onChangeText={(value)=>setDatas({...datas,lastName:value})} values={datas.lastName}/>
           <FloatingInput label="Age" onChangeText={(value)=>setDatas({...datas,age:value})} values={datas.age}/>
-          <TouchableOpacity style={styles.submitBtn} onPress={updateData}>
+          <TouchableOpacity style={styles.submitBtn} onPress={update}>
             <Text style={{ fontFamily:"Regular",paddingTop:8,fontSize: 20/fontScale, color: "#fff" }}>Update</Text>
           </TouchableOpacity>
         </View>
