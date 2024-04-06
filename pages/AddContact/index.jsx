@@ -1,26 +1,21 @@
 import React,{useCallback,useState} from 'react'
 import {View,Text,StyleSheet,SafeAreaView,Dimensions,TextInput,TouchableOpacity,FlatList,Image,ImageBackground,Pressable} from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {BackButton,FloatingInput,LoadingModal} from '../../components'
 import {useSaveData} from '../../custom-hooks'
 
 const {width,fontScale} = Dimensions.get('window')
 
-const EditContact = ({navigation}) => {
+const AddContact = ({navigation}) => {
   const insets = useSafeAreaInsets()
-  const contactData = useSelector(state => state.contactData);
-  const id = useSelector(state => state.currentID.currentId);
-
   const [datas,setDatas] = useState({
-    firstName: contactData.firstName,
-    lastName: contactData.lastName,
-    age: contactData.age.toString(),
-    photo: contactData.photo
+    firstName: "",
+    lastName: "",
+    age: "",
+    photo: null,
   })
-
-  const { loading,response,updateData} = useSaveData(`${process.env.BASE_URL}/${id}`,"PUT",datas);
+  const { loading,response,updateData} = useSaveData(`${process.env.BASE_URL}`,"POST",datas);
 
   const [libraryStatus, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
@@ -58,7 +53,7 @@ const EditContact = ({navigation}) => {
   const update=()=>{
     updateData()
     setTimeout(()=>{
-      navigation.navigate("ContactProfile")
+      navigation.navigate("Home")
     },1000)
   }
 
@@ -77,7 +72,7 @@ const EditContact = ({navigation}) => {
           <FloatingInput label="Last name" onChangeText={(value)=>setDatas({...datas,lastName:value})} values={datas.lastName}/>
           <FloatingInput label="Age" onChangeText={(value)=>setDatas({...datas,age:value})} values={datas.age}/>
           <TouchableOpacity style={styles.submitBtn} onPress={update}>
-            <Text style={{ fontFamily:"Regular",paddingTop:8,fontSize: 20/fontScale, color: "#fff" }}>Update</Text>
+            <Text style={{ fontFamily:"Regular",paddingTop:8,fontSize: 20/fontScale, color: "#fff" }}>Add Contact</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -131,4 +126,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditContact
+export default AddContact

@@ -1,3 +1,4 @@
 import useGetData from './useGetData'
+import useSaveData from './useSaveData'
 
-export {useGetData}
+export {useGetData,useSaveData}
