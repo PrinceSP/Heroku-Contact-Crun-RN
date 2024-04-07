@@ -17,6 +17,8 @@ const ContactProfile = ({navigation}) => {
   const id = useSelector(state => state.currentID.currentId);
   const { datas, refetch } = useGetData(`https://contact.herokuapp.com/contact/${id}`);
   const { updateData } = useSaveData(`https://contact.herokuapp.com/contact/${id}`);
+//   const { datas, refetch } = useGetData(`${process.env.BASE_URL}/${id}`);
+//   const { updateData } = useSaveData(`${process.env.BASE_URL}/${id}`);
   console.log(id);
   const { firstName, lastName, age, photo } = Object(datas?.data);
 

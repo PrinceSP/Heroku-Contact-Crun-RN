@@ -21,7 +21,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.princesp.herokucontactapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -37,8 +41,15 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-      ]
+      ],
+      "expo-font"
     ],
-    "owner": "princesp"
+    "owner": "princesp",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/88ed5571-df13-47e2-987d-159b5fccba51"
+    }
   }
 }

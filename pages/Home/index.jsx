@@ -11,6 +11,7 @@ const {width,fontScale,height} = Dimensions.get('screen')
 const Home = ({navigation}) => {
   const insets = useSafeAreaInsets()
   const {datas,refetch} = useGetData(`https://contact.herokuapp.com/contact`)
+//   const {datas,refetch} = useGetData(`${process.env.BASE_URL}`)
 
   useFocusEffect(
     useCallback(() => {

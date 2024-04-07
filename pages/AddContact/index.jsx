@@ -16,6 +16,7 @@ const AddContact = ({navigation}) => {
     photo: null,
   })
   const { loading,response,updateData} = useSaveData(`https://contact.herokuapp.com/contact`,"POST",datas);
+  //const { loading,response,updateData} = useSaveData(`${process.env.BASE_URL}`,"POST",datas);
 
   const [libraryStatus, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
