@@ -1,8 +1,9 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import {AllContacts} from '../../components';
+import { Provider } from 'react-redux'; // Import Provider from react-redux
+import { store } from '../../../../store'; // Import your Redux store
+import { AllContacts } from '../../../../components';
 
-// Mocked navigation object
 const navigation = {
   navigate: jest.fn(),
 };
@@ -16,27 +17,25 @@ describe('AllContacts component', () => {
   };
 
   it('renders correctly', () => {
-    const { getByText, getByTestId } = render(<AllContacts item={item} navigation={navigation} />);
+    const { getByText, getByTestId } = render(
+      <Provider store={store}>
+        <AllContacts item={item} navigation={navigation} />
+      </Provider>
+    );
 
-    // Check if the contact's full name is rendered
     expect(getByText(`${item.firstName} ${item.lastName}`)).toBeTruthy();
-
-    // Check if the right arrow icon is rendered
     expect(getByTestId('right-arrow-icon')).toBeTruthy();
   });
 
   it('navigates to ContactProfile screen on press', () => {
-    const { getByTestId } = render(<AllContacts item={item} navigation={navigation} />);
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <AllContacts item={item} navigation={navigation} />
+      </Provider>
+    );
     const contactItem = getByTestId('contact-item');
 
-    // Simulate press event
     fireEvent.press(contactItem);
-
-    // Check if the navigation function is called with the correct arguments
     expect(navigation.navigate).toHaveBeenCalledWith('ContactProfile');
-
-    // Check if the getID action is dispatched with the correct ID
-    // This would depend on the implementation of your Redux store and action creator,
-    // you might need to mock useDispatch and getID function for this test.
   });
 });

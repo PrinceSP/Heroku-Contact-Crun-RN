@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import {FloatingInput} from '../../components';
+import { render, fireEvent, act } from '@testing-library/react-native';
+import { FloatingInput } from '../../../../components';
 
 describe('FloatingInput component', () => {
   it('renders correctly', () => {
@@ -15,31 +15,35 @@ describe('FloatingInput component', () => {
     expect(label).toBeTruthy();
   });
 
-  it('displays label when input is focused', () => {
+  it('displays label when input is focused', async () => {
     const { getByPlaceholderText, getByText } = render(
       <FloatingInput label="Username" placeholder="Enter your username" />
     );
 
     const input = getByPlaceholderText('Enter your username');
-    fireEvent.focus(input);
+    await act(async () => {
+      fireEvent.focus(input);
+    });
 
     const label = getByText('Username');
-    expect(label.props.style.top).toBe(5); // Check if label is positioned correctly when focused
+    expect(label.props.style.top).toBe(5);
   });
 
-  it('hides label when input loses focus and has no value', () => {
+  it('hides label when input loses focus and has no value', async () => {
     const { getByPlaceholderText, getByText } = render(
       <FloatingInput label="Username" placeholder="Enter your username" />
     );
 
     const input = getByPlaceholderText('Enter your username');
-    fireEvent.blur(input);
+    await act(async () => {
+      fireEvent.blur(input);
+    });
 
     const label = getByText('Username');
-    expect(label.props.style.top).toBe(18); // Check if label is positioned correctly when blurred and has no value
+    expect(label.props.style.top).toBe(18);
   });
 
-  it('keeps label visible when input has value', () => {
+  it('keeps label visible when input has value', async () => {
     const { getByPlaceholderText, getByText } = render(
       <FloatingInput label="Username" placeholder="Enter your username" values="JohnDoe" />
     );
@@ -47,6 +51,6 @@ describe('FloatingInput component', () => {
     const input = getByPlaceholderText('Enter your username');
 
     const label = getByText('Username');
-    expect(label.props.style.top).toBe(5); // Check if label is positioned correctly when input has value
+    expect(label.props.style.top).toBe(5);
   });
 });

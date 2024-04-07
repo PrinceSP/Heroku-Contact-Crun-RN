@@ -7,7 +7,7 @@ const LoadingModal = () => {
   return (
     <View style={{flex:1,alignItems:'center',justifyContent:'center',backgroundColor:"#fff"}}>
       <Text>Please Wait</Text>
-      <ActivityIndicator size='large' color="#00f"/>
+      <ActivityIndicator testID="activity-indicator" size='large' color="#00f"/>
     </View>
   );
 }

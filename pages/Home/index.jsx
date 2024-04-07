@@ -10,7 +10,8 @@ const {width,fontScale,height} = Dimensions.get('screen')
 
 const Home = ({navigation}) => {
   const insets = useSafeAreaInsets()
-  const {datas,refetch} = useGetData(`${process.env.BASE_URL}`)
+  const {datas,refetch} = useGetData(`https://contact.herokuapp.com/contact`)
+//   const {datas,refetch} = useGetData(`${process.env.BASE_URL}`)
 
   useFocusEffect(
     useCallback(() => {
@@ -37,7 +38,7 @@ const Home = ({navigation}) => {
         data={datas?.data}
         keyExtractor={(item)=>item.id.toString()}
         renderItem={({item})=><AllContacts item={item} navigation={navigation}/>}/>
-      <Pressable style={styles.addBtn} onPress={()=>navigation.navigate("AddContact")}>
+      <Pressable testID="add-button" style={styles.addBtn} onPress={()=>navigation.navigate("AddContact")}>
         <AntDesign name="adduser" size={32} color="#fff" />
       </Pressable>
     </SafeAreaView>

@@ -6,9 +6,7 @@ const useGetData = (url) => {
   const fetchData = useCallback(() => {
     fetch(url)
       .then((res) => res.json())
-      .then((response) => {
-        setDatas(response);
-      })
+      .then((response) => setDatas(response))
       .catch((error) => error);
   }, [url]);
 
