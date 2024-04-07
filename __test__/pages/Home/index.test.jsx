@@ -43,7 +43,5 @@ describe('Home component', () => {
       const contactsText = await findByText('Contacts');
       expect(contactsText).toBeTruthy();
     });
-
-    // Your other assertions...
   });
 });
