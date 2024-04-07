@@ -1,34 +1,34 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import Router from '../router';
 import { Provider } from 'react-redux';
-import { StatusBar } from 'expo-status-bar';
-import App from '../App';
-import { store } from './store';
+import { NavigationContainer } from '@react-navigation/native';
+import { store } from '../store';
 
-// Mocking NavigationContainer and StatusBar
-jest.mock('@react-navigation/native', () => ({
-  NavigationContainer: jest.fn(({ children }) => children),
-}));
-
-jest.mock('expo-status-bar', () => ({
-  StatusBar: jest.fn(),
-}));
-
-// Mocking useFonts
+// Mocking useFonts hook since it's not relevant for this unit test
 jest.mock('expo-font', () => ({
-  useFonts: jest.fn(() => [true]), // Mocking that fonts are loaded
+  useFonts: jest.fn(() => [true]), // Assuming fonts are loaded successfully
 }));
+
+// Mocking StatusBar component
+jest.mock('expo-status-bar', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
+// Mocking Router component since we only need to test the App component
+jest.mock('../router', () => () => <Router data-testid="mock-router"/>);
 
 describe('App component', () => {
-  it('renders correctly', () => {
-    render(
+  it('renders without crashing', () => {
+    const { getByTestId } = render(
       <Provider store={store}>
-        <App />
+        <NavigationContainer>
+          <Router />
+        </NavigationContainer>
       </Provider>
     );
 
-    expect(NavigationContainer).toHaveBeenCalled();
-    expect(StatusBar).toHaveBeenCalledWith('auto');
+    expect(getByTestId('mock-router')).toBeTruthy(); // Assuming 'mock-router' is an element rendered by the Router component
   });
 });

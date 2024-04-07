@@ -1,6 +1,6 @@
 import React from 'react';
 import { Easing } from 'react-native';
-import { createNativeStackNavigator,TransitionPreset,CardStyleInterpolators } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {Home,ContactProfile,EditContact,AddContact} from "../pages"
 
 const Stack = createNativeStackNavigator();

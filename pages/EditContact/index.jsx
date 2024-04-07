@@ -3,7 +3,7 @@ import {View,Text,StyleSheet,SafeAreaView,Dimensions,TextInput,TouchableOpacity,
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
-import {BackButton,FloatingInput,LoadingModal} from '../../components'
+import {BackButton,FloatingInput} from '../../components'
 import {useSaveData} from '../../custom-hooks'
 
 const {width,fontScale} = Dimensions.get('window')
@@ -20,7 +20,8 @@ const EditContact = ({navigation}) => {
     photo: contactData.photo
   })
 
-  const { loading,response,updateData} = useSaveData(`${process.env.BASE_URL}/${id}`,"PUT",datas);
+  const { loading,response,updateData} = useSaveData(`https://contact.herokuapp.com/contact/${id}`,"PUT",datas);
+//   const { loading,response,updateData} = useSaveData(`${process.env.BASE_URL}/${id}`,"PUT",datas);
 
   const [libraryStatus, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 

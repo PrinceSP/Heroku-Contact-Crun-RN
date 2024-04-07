@@ -2,7 +2,7 @@ import React,{useCallback,useState} from 'react'
 import {View,Text,StyleSheet,SafeAreaView,Dimensions,TextInput,TouchableOpacity,FlatList,Image,ImageBackground,Pressable} from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {BackButton,FloatingInput,LoadingModal} from '../../components'
+import {BackButton,FloatingInput} from '../../components'
 import {useSaveData} from '../../custom-hooks'
 
 const {width,fontScale} = Dimensions.get('window')
@@ -15,7 +15,8 @@ const AddContact = ({navigation}) => {
     age: "",
     photo: null,
   })
-  const { loading,response,updateData} = useSaveData(`${process.env.BASE_URL}`,"POST",datas);
+  const { loading,response,updateData} = useSaveData(`https://contact.herokuapp.com/contact`,"POST",datas);
+  //const { loading,response,updateData} = useSaveData(`${process.env.BASE_URL}`,"POST",datas);
 
   const [libraryStatus, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 

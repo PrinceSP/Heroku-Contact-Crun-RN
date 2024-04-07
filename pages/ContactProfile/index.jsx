@@ -15,8 +15,10 @@ const ContactProfile = ({navigation}) => {
   const dispatch = useDispatch();
   const [isMenu,showMenu] = useState(false)
   const id = useSelector(state => state.currentID.currentId);
-  const { datas, refetch } = useGetData(`${process.env.BASE_URL}/${id}`);
-  const { updateData } = useSaveData(`${process.env.BASE_URL}/${id}`);
+  const { datas, refetch } = useGetData(`https://contact.herokuapp.com/contact/${id}`);
+  const { updateData } = useSaveData(`https://contact.herokuapp.com/contact/${id}`);
+//   const { datas, refetch } = useGetData(`${process.env.BASE_URL}/${id}`);
+//   const { updateData } = useSaveData(`${process.env.BASE_URL}/${id}`);
   console.log(id);
   const { firstName, lastName, age, photo } = Object(datas?.data);
 
@@ -32,7 +34,7 @@ const ContactProfile = ({navigation}) => {
   );
 
   if (!datas) {
-    return <LoadingModal/>;
+    return <LoadingModal testID="activity-indicator"/>;
   }
 
   return (
