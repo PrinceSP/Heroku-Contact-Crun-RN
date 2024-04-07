@@ -1,10 +1,15 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
-import {useGetData} from '../../../../store/useGetData';
+import { render, act } from '@testing-library/react-native';
+import {useGetData} from '../../../custom-hooks';
 
 describe('useGetData custom hook', () => {
-  const mockData = [{ id: 1, name: 'John' }, { id: 2, name: 'Jane' }];
-  const mockUrl = 'https://example.com/data';
+  const mockData = [
+    { id: 1, firstName: 'John',lastName:'Doe',age:20,photo:'string' },
+    { id: 2, firstName: 'John',lastName:'Doe',age:20,photo:'string' },
+    { id: 3, firstName: 'John',lastName:'Doe',age:20,photo:'string' },
+  ];
+  const nullData = []
+  const mockUrl = 'https://contact.herokuapp.com/contact';
 
   beforeAll(() => {
     global.fetch = jest.fn(() =>
@@ -44,7 +49,7 @@ describe('useGetData custom hook', () => {
     let hookResult;
 
     const TestComponent = () => {
-      hookResult = useGetData(mockUrl);
+      hookResult = useGetData(nullData);
       return null;
     };
 
@@ -55,7 +60,7 @@ describe('useGetData custom hook', () => {
       await hookResult.refetch();
     });
 
-    expect(global.fetch).toHaveBeenCalledWith(mockUrl);
+    expect(global.fetch).toHaveBeenCalledWith(nullData);
     expect(hookResult.datas).toBeNull();
   });
 });

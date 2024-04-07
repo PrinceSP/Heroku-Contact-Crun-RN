@@ -1,10 +1,10 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
-import {useSaveData} from '../../../../store/useSaveData';
+import { render, act } from '@testing-library/react-native';
+import {useSaveData} from '../../../custom-hooks';
 
 describe('useSaveData custom hook', () => {
-  const mockUrl = 'https://example.com/data';
-  const mockData = { id: 1, name: 'John' };
+  const mockUrl = 'https://contact.herokuapp.com/contact';
+  const mockData = { id: 1, firstName: 'John',lastName:'Doe',age:20,photo:'string' };
   const mockMethod = 'POST';
 
   beforeAll(() => {

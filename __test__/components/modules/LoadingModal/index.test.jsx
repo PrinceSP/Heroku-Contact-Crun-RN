@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import {LoadingModal} from '../../../../LoadingModal';
+import {LoadingModal} from '../../../../components';
 
 describe('LoadingModal component', () => {
   it('renders correctly', () => {
