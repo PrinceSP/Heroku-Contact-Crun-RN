@@ -1,4 +1,4 @@
-import React,{useCallback} from 'react'
+import React,{useCallback,useState} from 'react'
 import {View,Text,StyleSheet,SafeAreaView,Dimensions,TextInput,FlatList,Image,Pressable} from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AntDesign,Feather } from '@expo/vector-icons';
@@ -10,6 +10,7 @@ const {width,fontScale,height} = Dimensions.get('screen')
 
 const Home = ({navigation}) => {
   const insets = useSafeAreaInsets()
+  const [searchQuery,setSearchQuery] = useState("")
   const {datas,refetch} = useGetData(`https://contact.herokuapp.com/contact`)
 //   const {datas,refetch} = useGetData(`${process.env.BASE_URL}`)
 
@@ -23,19 +24,31 @@ const Home = ({navigation}) => {
     return <LoadingModal/>;
   }
 
+  const keys = ["firstName","id","lastName","age"]
+  const matchData = datas?.data.filter((item:any)=>{
+    return keys.some((key) => item[key]?.toString().toLowerCase().includes(searchQuery))
+  })
+
   return (
     <SafeAreaView style={[styles.container,{paddingTop: insets.top}]}>
       <Text style = {styles.title}>Contacts</Text>
       <View style={styles.SearchContact}>
         <Feather name="search" size={24} color="#B7B8BB" />
-        <TextInput clearButtonMode="always" placeholder="Search name here..." inputMode="search" autoCapitalize="none" returnKeyLabel="search" style={styles.input}/>
+        <TextInput clearButtonMode="always"
+          placeholder="Search name here..."
+          inputMode="search"
+          autoCapitalize="none"
+          returnKeyLabel="search"
+          style={styles.input}
+          onChangeText={value=>setSearchQuery(value)}
+        />
       </View>
       <Text style={{fontSize:18/fontScale,fontWeight:"600",marginTop:10}}>Recent Added</Text>
       <RecentAdd datas={datas?.data.slice(0,10)} navigation={navigation}/>
-      <Text style={{fontSize:18/fontScale,fontWeight:"600"}}>All Contacts ({datas?.data.length})</Text>
+      <Text style={{fontSize:18/fontScale,fontWeight:"600"}}>All Contacts ({matchData.length})</Text>
       <FlatList
         showsHorizontalScrollIndicator={false}
-        data={datas?.data}
+        data={matchData}
         keyExtractor={(item)=>item.id.toString()}
         renderItem={({item})=><AllContacts item={item} navigation={navigation}/>}/>
       <Pressable testID="add-button" style={styles.addBtn} onPress={()=>navigation.navigate("AddContact")}>
